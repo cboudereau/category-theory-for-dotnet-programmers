@@ -6,5 +6,5 @@ static class Functions
 
 Functions.ignore(1); //ok
 
-// /!\ This code doesnot compiles and this is why void could not be used as unit.
+// /!\ This code does not compile and this is why void could not be used as unit.
 Functions.ignore(1); == Functions.ignore(1);
