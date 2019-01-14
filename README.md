@@ -1,5 +1,5 @@
 # category-theory-for-dotnet-programmers
-This repo contains c++ / haskell samples from Bartosz Milewski's book (Category Theory for Programmers) converted to csharp and fsharp
+This repo contains c++ / haskell samples from Bartosz Milewski's book ([Category Theory for Programmers](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/)) converted to csharp and fsharp
 
 ## Why
 If you are curious about functional programming with dotnet background, you already may know [Domain modeling made functional](https://pragprog.com/book/swdddf/domain-modeling-made-functional) that could help you to build your first functional programming based app.
