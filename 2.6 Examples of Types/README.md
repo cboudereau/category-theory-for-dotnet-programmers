@@ -12,7 +12,7 @@ The type unit does not really exists in csharp even if you a function without ar
 ## Concrete sample in .Net where unit is needed.
 Some aspect oriented programming or mock framework libs (like Moq, RhinoMocks, ...) have defined a Void or Unit type to simplify reflection. 
 
-| Action could be Action<unit> and Action<unit> could be Func<unit, unit> 
+```Action could be Action<unit> and Action<unit> could be Func<unit, unit>``` 
 
 In mock framework you may have at least 3 overloads to mock a call.. Having only 1 call helps to avoid overloading in favor of type inference
 Overloading is a feature but also a limitation for the type inference system: the developper should choose one of them.
