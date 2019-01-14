@@ -3,7 +3,7 @@ This repo contains c++ / haskell samples from Bartosz Milewski's book ([Category
 
 ## Why
 If you are curious about functional programming with dotnet background, you already may know [Domain modeling made functional](https://pragprog.com/book/swdddf/domain-modeling-made-functional) that could help you to build your first functional programming based app.
-The Category Theory for programmers, is quite interresting for programmers having a first experience in fsharp or csharp (in .net) who want to use Haskell or enhance their FSharp implementation.
+The [Category Theory for programmers](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/), is quite interresting for programmers having a first experience in fsharp or csharp (in .net) who want to use Haskell or enhance their FSharp implementation.
 
 Fsx and Csx are script files executed respectively into Fsharp interactive and Csharp interactive shipped with Visual Studio Community at least.
 
