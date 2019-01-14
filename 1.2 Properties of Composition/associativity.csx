@@ -23,10 +23,7 @@ Console.WriteLine(Functions.identity (1) == Functions.id(1)); //True
 var listOfList = new[] { new[]{1,2}, new[]{3,4} };
 
 //Identity is everywhere in csharp but implicity thanks to lambda.
-var flattenList = listOfList.SelectMany(x => x);
+var flattenList = listOfList.SelectMany(x => x); //{ 1, 2, 3, 4 }
 
 //We can define our own id function in csharp but in this sample it is longer than the lambda one.
-var flattenListWithIdentity = listOfList.SelectMany(Functions.id);
-
-flattenList //{ 1, 2, 3, 4 }
-flattenListWithIdentity //{ 1, 2, 3, 4 }
+var flattenListWithIdentity = listOfList.SelectMany(Functions.id); //{ 1, 2, 3, 4 }
