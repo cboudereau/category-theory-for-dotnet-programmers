@@ -27,3 +27,7 @@ let identity = (+) neutral // aka let identity x = x + 0
 
 //In fsharp, like Haskell, an identity function is already defined named 'id'
 identity 1 = id 1 //true
+
+//Identity can be helpfull to concat list : 
+
+[1;2;3;4] = ([[1;2];[3;4]] |> List.collect id) //List.concat already exists for that.
