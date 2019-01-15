@@ -4,10 +4,10 @@
 
 Why void cannot but used as unit in csharp and why unit is usefull. 
 
-For compatibility unit type in fsharp are converted to void type in csharp (for interop).
+For compatibility, unit type in fsharp ise converted to void type in csharp (for interop).
 
-In fsharp you can write : ignore 1 = ignore 1, the code compiles but in csharp you can't compare void type. 
-The type unit does not really exists in csharp even if you a function without argument : ().
+In fsharp you can write : ignore 1 = ignore 1, the code compiles but in csharp you can't compare/use void type. 
+The type unit does not really exists in csharp. The strange things in csharp is the no parameter method definition : it ends with '()' which is unit.
 
 ## Concrete sample in .Net where unit is needed.
 Some aspect oriented programming or mock framework libs (like Moq, RhinoMocks, ...) have defined a Void or Unit type to simplify reflection. 
@@ -19,4 +19,4 @@ Overloading is a feature but also a limitation for the type inference system: th
 
 With this little convention only 1 type instead of 3 is needed to start with reflection.
 You understand now why this difference make sense when you want to compose a program.
-By reducing the number of paths you increase the composability of your program.
+By reducing the number of type to build the same things, you can have a more powerfull tool to compose program.

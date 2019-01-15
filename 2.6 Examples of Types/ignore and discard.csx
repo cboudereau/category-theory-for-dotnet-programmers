@@ -1,6 +1,6 @@
 static class Functions
 {
-    /// unit is kind of void in csharp but you can't pass it as parameter.. 
+    /// unit is a kind of void in csharp but you can't use it as parameter.. 
     public static void ignore<T>(T x) { return; }
 }
 
