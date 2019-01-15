@@ -2,7 +2,7 @@
 
 ## Introducing Void and unit 
 
-Why void cannot but used as unit in csharp and why unit is usefull. 
+Why void cannot but used as unit in csharp and why unit is useful. 
 
 For compatibility, unit type in fsharp ise converted to void type in csharp (for interop).
 
