@@ -1,7 +1,7 @@
 # 4 Kleisli Categories
 
-The Writer is useful to hide the log for the caller (in the function signature). 
-Only adapted functions return a string inside the Writer.
+The Writer example (log every function call) is useful to hide the log for the caller (in the function signature). 
+Only adapted functions return a string (the log) inside the Writer.
 To adapt 2 functions, we need a kleisli composition (fish operator) that help us to use standard function (upper and words) inside the Writer.
 
 ## Personal notes (not in this book, but useful I think to get it)
