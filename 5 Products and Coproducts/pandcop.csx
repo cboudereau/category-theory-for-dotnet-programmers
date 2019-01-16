@@ -47,11 +47,12 @@ class TypeAsSet
     public static int[] injective() => new[] { 1, 2 };
 }
 
-//surjective or onto domain size is lower than codomain. One element of the domain map n elements of the codomain
+//surjective or onto : domain size is lower than codomain. One element of the domain map n elements of the codomain
 var surjective = new[] { 1 }.SelectMany(TypeAsSet.surjective);
 
-//injective or one-to-one, unit map multiple element of the codomain
+//injective or one-to-one : unit map multiple element of the codomain
 var injective = TypeAsSet.injective();
+
 //bijection
 class Functions2
 {
