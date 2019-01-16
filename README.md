@@ -7,5 +7,11 @@ The [Category Theory for programmers](https://bartoszmilewski.com/2014/10/28/cat
 
 Fsx and Csx are scripts files executed respectively into Fsharp interactive and Csharp interactive shipped with Visual Studio Community at least.
 
+# How to use it ?
+
+Read the [Category Theory for Programmers](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/) and the annotations corresponding to the chapter into vs code or visual studio.
+
+You can use it like a sandbox and try by yourself Challenges (challenges are not translated for more fun ;)). Only Haskell/C++ samples are translated.
+
 I will try to add converted examples constantly but pull requests are accepted.
 The format is pretty simple, one folder per each chapter and 2 scripts (fsharp and csharp) inside.
