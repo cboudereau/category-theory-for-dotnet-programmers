@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 //Here is a convenient way to build a Void type
-//Sealed is important to stop sum the sum and be sure that this type as no value and is impossible to construct in any way.
+//Sealed is important to stop sum and be sure that this type as no value and is impossible to construct in any way.
 sealed class Void
 {
     private Void() { }
@@ -64,11 +64,11 @@ r1.Equals(r2) //true
 
 /// Personal notes
 //Now think about how to implement the StreamReader and StreamWriter. 
-//One read only the streamm it is absurd to write and the opposite is true for the writer
+//One only reads the stream, it is absurd to write. The opposite is true for the writer
 //We can build instead a Pipe (reader/writer) and use inheritance polymorphism to build the reader and the writer
 
 /// Link Pipe in Haskell : https://stackoverflow.com/questions/14131856/whats-the-absurd-function-in-data-void-useful-for
-/// For example, Kestrel in dotnet core uses Pipeline technique for synchronization/timing purpose.
+/// For example, Kestrel in dotnet core uses Pipeline pattern for synchronization/timing purpose.
 
 /// Simple Sum type like enum : 
 
@@ -101,11 +101,11 @@ struct Just<T> : Maybe<T>
 //In csharp Nullable is equivalent to Maybe in haskell and Option in fsharp when nullable reference type will be available.
 //link : https://blogs.msdn.microsoft.com/dotnet/2017/11/15/nullable-reference-types-in-csharp/
 
-//This type could be construct behing Either thanks to our unit type like this : 
+//This type could be construct behind Either thanks to our unit type like this : 
 // In fact Either interface does not keep track of types : lets create a generic one : 
 interface Either2<L, R> { }
 
-//Personal notes : this part is not in the book, but I have to translate it in csharp and I don't know what is the best one. Lets discuss it in a pull request
+//Personal notes : this part is not in the book, but I have to translate it in csharp and I don't know what is the approach. Lets discuss it in a pull request
 
 //It is a little bit strange, now in the definition of Left we have to keep the Right type ??
 struct Left2<L, R> : Either2<L, R>
@@ -126,10 +126,10 @@ sealed class Unit
     private Unit(){ }
 }
 
-//Now it is okay but we have introduced a cycle in the type definition between Left and Right type ?! 
+//Now it is okay but we have introduced a mutual dependency in the type definition between Left and Right type ?! 
 class MaybeE<T> : Either2<Unit, T> { }
 
-//We can define the Either with only one generic type because it is a sum after all.. But ...
+//We can define the Either with only one generic type because. It is a sum after all.. But ...
 interface Either3<T> { }
 
 struct Left3<L> : Either3<L>
@@ -148,7 +148,8 @@ struct Right3<R> : Either3<R>
 static class Either3Extension
 {
     //How could we write the factorizers.
-    //We could do it but it is not a sum anymore.. The type of left and right should converge..
+    //We could do it but it is not a sum anymore.. The type of left and right should be the same..
+    //If this sample is a little bit hard, try to implement the prodToSum and sumToProd of the chapter 6.4
     public static Either3<R> factorizers<T, R>(Either3<T> x, Func<T, R> f, Func<T, R> g)
     {
         switch (x)
@@ -160,7 +161,7 @@ static class Either3Extension
     }
 }
 
-//Here only the Either2 is valid and is compliant with properties but the type definition of left and right are dependent..
+//Here, only the Either2 is valid and is compliant with properties but the type definition of left and right are mutually dependent..
 
 ////////////////////////////////
 
@@ -187,7 +188,7 @@ empty.FirstOrDefault() //0 ?? what?? Implicit zero on default constructor provid
 
 var l3 = new[] { 0 };
 
-empty.FirstOrDefault() == l3.FirstOrDefault() //true, now we are not able to see if it is the first element or not ??
+empty.FirstOrDefault() == l3.FirstOrDefault() //true, now we are not able to see if it is the first element or not ?0?
 
 //now it is better but the compiler does not help us because there is no Nullable<T> for FirstOrDefault (due to the reference type issue in Nullable)
 

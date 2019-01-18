@@ -16,7 +16,7 @@ struct Element
     public static Element tupleToElement (string n, string s, int a) => Element(Name = n, Symbol = s, AtomicNumber = a);
     public static elemToTuple(Element e) => (e.Name, e.Symbol, e.AtomicNumber);
     //Redefine the new function:
-    //I don't know how to do a human readable
+    //I don't know how to do a human readable one in csharp
     public static bool startsWithSymbol2 (Element e) => Functions.isPrefixOf2(e.Symbol, e.Name);
 }
 

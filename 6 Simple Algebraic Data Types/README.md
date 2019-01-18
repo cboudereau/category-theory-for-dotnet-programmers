@@ -4,6 +4,6 @@ This chapter explains well what is a Sum and Product types and how we could use 
 
 ## Personal notes
 In csharp we often use Subtyping as Sum type. There is 2 things in Sum types : the total one, where the compiler checks that
-each case is treated (Discriminated union in fsharp, can't do that now in csharp) and the open one (partial) with Subtype.
+each case is treated (Discriminated union in fsharp, can't do that in csharp for now) and the open one (partial) with Subtype.
 
-Sum type as Subtyping creates strange cyclic type dependencies in the Either implementation : Pull request accepted!
+Sum type as Subtyping creates strange mutually type dependencies in the Either implementation : Pull request accepted!

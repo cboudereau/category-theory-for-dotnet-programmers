@@ -1,8 +1,8 @@
-//Pair are not commutative
+//Pair is not commutative
 let pair1 = (1, true)
 let pair2 = (true, 1)
 
-//We can provide a function swap that inverse the pair
+//We can provide a swap function that reverse the pair
 let swap (x, y) = (y, x)
 
 pair1 = swap pair2 //true in type and by value thanks to swap
