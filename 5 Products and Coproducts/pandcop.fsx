@@ -34,9 +34,9 @@ pair_factorizer pair2 |> fst = pair2 //true
 
 //Type as set with list sample : 
 
-//surjective or onto domain : size is lower than codomain. One element of the domain map n elements of the codomain
-let surjective x = [ x;2*x ]
-[ 1 ] |> List.collect surjective
+//surjective or onto domain : function that use less space of the codomain like having a singleton in list. 
+let surjective x = List.singleton x
+surjective 1
 
 //injective or one-to-one : unit map multiple element of the codomain
 let injective () = [ 1;2 ]
