@@ -27,7 +27,7 @@ Right "hello" |> simple |> Right = Right "hello"
 /// For example, Kestrel in dotnet core uses Pipeline technique for synchronization/timing purpose.
 
 /// Simple Sum type like enum : 
-type Color = Read | Green | Blue
+type Color = Red | Green | Blue
 
 // Maybe
 type Maybe<'a> = Nothing | Just of 'a
