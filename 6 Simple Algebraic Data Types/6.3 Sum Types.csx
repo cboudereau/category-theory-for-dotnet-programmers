@@ -195,3 +195,50 @@ empty.FirstOrDefault() == l3.FirstOrDefault() //true, now we are not able to see
 //A better one for value types
 empty.Select(x => new Nullable<int>(x)).FirstOrDefault() // It outputs null but it is a true Nullable without value..
 
+public class Either4<TL, TR>
+{
+    private readonly TL left;
+    private readonly TR right;
+    private readonly bool isLeft;
+
+    public Either4(TL left)
+    {
+        this.left = left;
+        this.isLeft = true;
+    }
+
+    public Either4(TR right)
+    {
+        this.right = right;
+        this.isLeft = false;
+    }
+
+    public T Match4<T>(Func<TL, T> leftFunc, Func<TR, T> rightFunc)
+        => this.isLeft ? leftFunc(this.left) : rightFunc(this.right);
+
+    public override bool Equals(object obj)
+    {
+        var item = obj as Either4<TL, TR>;
+        if (item == null)
+        {
+            return false;
+        }
+        return item.Match4(
+            left1 => this.Match4(left2 => left2.Equals(left1), right2 => false),
+            right1 => this.Match4(left2 => false, right2 => right2.Equals(right1))
+            );
+    }
+}
+
+//Here Either is isomorphic to Right because Left is absurd! 
+
+
+var r1 = new Either4<string,Void> (
+    new Either4<string, Void>("hello")
+    .Match4(
+        left => left, right => throw new Exception("error!"))
+        );
+var r2 = new Either4<string,Void>("hello");
+
+// /!\ Execute this code line by line due to expression/statement issue
+r1.Equals(r2) //true
