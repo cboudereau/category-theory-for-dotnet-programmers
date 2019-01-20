@@ -242,3 +242,41 @@ var r2 = new Either4<string,Void>("hello");
 
 // /!\ Execute this code line by line due to expression/statement issue
 r1.Equals(r2) //true
+
+// Either implemented by using the Vistor pattern
+public interface IEitherVisitor<A, B> {
+    A visitLeft(IEither5<A, B> v);
+    B visitRight(IEither5<A, B> v);
+};
+
+public interface IEither5<A, B> {
+    A acceptLeft(IEitherVisitor<A, B> v);
+    B acceptRight(IEitherVisitor<A, B> v);
+ };
+
+struct Left5<A, B> : IEither5<A, B>
+{
+    public A Value { get; }
+    public Left5(A v) => Value = v;
+    A IEither5<A, B>.acceptLeft(IEitherVisitor<A, B> v) => Value;
+    B IEither5<A, B>.acceptRight(IEitherVisitor<A, B> v) => throw new Exception("only Left");
+};
+
+struct Right5<A, B> : IEither5<A, B>
+{
+    public B Value { get; }
+    public Right5(B v) => Value = v;
+    A IEither5<A, B>.acceptLeft(IEitherVisitor<A, B> v) => throw new Exception("only right");
+    B IEither5<A, B>.acceptRight(IEitherVisitor<A, B> v) => Value;
+};
+
+public class EitherVisitor<A, B> : IEitherVisitor<A, B> {
+    public A visitLeft(IEither5<A, B> v) => v.acceptLeft(this);
+    public B visitRight(IEither5<A, B> v)=> v.acceptRight(this);
+};
+
+var visitor = new  EitherVisitor<Void,string>();
+var r1 = new Right5<Void,string>(visitor.visitRight(new Right5<Void,string>("hello")));
+var r2 = new Right5<Void,string>("hello");
+
+r1.Equals(r2) // true
