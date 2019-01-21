@@ -297,6 +297,7 @@ switch ((Either4<Unit, string>)r1E4)
 
 // Either5 //////////////////////////////////////////////////////////////////////
 // Either implemented by using the Vistor pattern
+// Link : https://mikhail.io/2016/01/validation-with-either-data-type-in-csharp/
 public interface IEitherVisitor<A, B>
 {
     A visitLeft(IEither5<A, B> v);
