@@ -36,7 +36,6 @@ struct Right<T> : Either
 
 class Functions
 {
-
     //Convenient way to adapt things. Here the compiler ensures that Right is absurd. 
     //Personal note
     //If we have encoded that with NotImplementedException only, the check is at runtime instead at compile time. 
@@ -102,6 +101,43 @@ struct Just<T> : Maybe<T>
 //link : https://blogs.msdn.microsoft.com/dotnet/2017/11/15/nullable-reference-types-in-csharp/
 
 //This type could be construct behind Either thanks to our unit type like this : 
+
+// Either ///////////////////////////////////////////////////////////////////////
+//Is it possible to reuse our previous definition : 
+
+class Maybe : Either { } //It is a little bit strange..
+
+class LeftClass<T> : Either
+{
+    public T Value { get; }
+    public LeftClass(T v) => Value = v;
+}
+
+class RightClass<T> : Either
+{
+    public T Value { get; }
+    public RightClass(T v) => Value = v;
+}
+
+class Nothing : LeftClass<Unit> { public Nothing() : base(Unit.Singleton) { } } //Can't do that with Left struct, so I have to turn the Left as class..
+class Just<T> : RightClass<T> { public Just(T v) : base(v) { } }
+
+var r1E = new Nothing();
+
+var r2E = new Just<string>("hello");
+
+var r1E = new Nothing();
+
+var r2E = new Just<string>("hello");
+
+switch ((Either)r1E)
+{
+    case Nothing _: return "nothing";
+    case Just<string> x: return x.Value;
+    default: throw new System.NotImplementedException("you have added a new type without the matching implementation");
+}
+
+// Either2 //////////////////////////////////////////////////////////////////////
 // In fact Either interface does not keep track of types : lets create a generic one : 
 interface Either2<L, R> { }
 
@@ -124,11 +160,24 @@ struct Right2<L, R> : Either2<L, R>
 sealed class Unit
 {
     private Unit(){ }
+
+    public static Unit Singleton = new Unit();
 }
 
 //Now it is okay but we have introduced a mutual dependency in the type definition between Left and Right type ?! 
-class MaybeE<T> : Either2<Unit, T> { }
+class Maybe2<T> : Either2<Unit, T> { }
 
+var r1E2 = new Right2<Unit, string>("hello");
+var r2E2 = new Left2<Unit, string>(Unit.Singleton);
+
+switch ((Either2<Unit, string>)r1E2)
+{
+    case Left2<Unit, string> _: return "nothing";
+    case Right2<Unit, string> x: return x.Value;
+    default: throw new System.NotImplementedException("you have added a new type without the matching implementation");
+}
+
+// Either3 //////////////////////////////////////////////////////////////////////
 //We can define the Either with only one generic type because. It is a sum after all.. But ...
 interface Either3<T> { }
 
@@ -145,6 +194,20 @@ struct Right3<R> : Either3<R>
     public Right3(R x) => Value = x;
 }
 
+class Maybe3<T> : Either3<T> { }
+
+var r1E3 = new Right3<string>("hello");
+var r2E3 = new Left3<Unit>(Unit.Singleton);
+
+//This code does not compile at all because Unit != string
+switch ((Either3<string>)r1E3)
+{
+    case Left3<string> _: return "nothing";
+    case Right3<Unit> x: return x.Value;
+    default: throw new System.NotImplementedException("you have added a new type without the matching implementation");
+}
+
+// Check the factorizers properties..
 static class Either3Extension
 {
     //How could we write the factorizers.
@@ -161,7 +224,126 @@ static class Either3Extension
     }
 }
 
-//Here, only the Either2 is valid and is compliant with properties but the type definition of left and right are mutually dependent..
+
+
+
+
+
+// Either4 //////////////////////////////////////////////////////////////////////
+public class Either4<TL, TR>
+{
+    private readonly TL left;
+    private readonly TR right;
+    private readonly bool isLeft;
+
+    public Either4(TL left)
+    {
+        this.left = left;
+        this.isLeft = true;
+    }
+
+    public Either4(TR right)
+    {
+        this.right = right;
+        this.isLeft = false;
+    }
+
+    public TL Left => left;
+
+    public TR Right => right;
+
+    public T Match4<T>(Func<TL, T> leftFunc, Func<TR, T> rightFunc)
+        => this.isLeft ? leftFunc(this.left) : rightFunc(this.right);
+
+    public override bool Equals(object obj)
+    {
+        var item = obj as Either4<TL, TR>;
+        if (item == null)
+        {
+            return false;
+        }
+        return item.Match4(
+            left1 => this.Match4(left2 => left2.Equals(left1), right2 => false),
+            right1 => this.Match4(left2 => false, right2 => right2.Equals(right1))
+            );
+    }
+}
+
+//Here Either is isomorphic to Right because Left is absurd! 
+var r14 = new Either4<string, Void>(
+    new Either4<string, Void>("hello")
+    .Match4(
+        left => left, right => throw new Exception("error!"))
+        );
+var r24 = new Either4<string, Void>("hello");
+
+// /!\ Execute this code line by line due to expression/statement issue
+r14.Equals(r24) //true
+
+
+class Just4<T> : Either4<Unit, T> { public Just4(T v) : base(v) { } }
+class Nothing4<T> : Either4<Unit, T> { public Nothing4() : base(Unit.Singleton) { } }
+
+var r1E4 = new Just4<string>("hello");
+var r2E4 = new Nothing4<string>();
+
+switch ((Either4<Unit, string>)r1E4)
+{
+    case Nothing4<string> _: return "nothing";
+    case Just4<string> x: return x.Right;
+    default: throw new System.NotImplementedException("you have added a new type without the matching implementation");
+}
+
+
+// Either5 //////////////////////////////////////////////////////////////////////
+// Either implemented by using the Vistor pattern
+public interface IEitherVisitor<A, B>
+{
+    A visitLeft(IEither5<A, B> v);
+    B visitRight(IEither5<A, B> v);
+};
+
+public interface IEither5<A, B>
+{
+    A acceptLeft(IEitherVisitor<A, B> v);
+    B acceptRight(IEitherVisitor<A, B> v);
+};
+
+struct Left5<A, B> : IEither5<A, B>
+{
+    public A Value { get; }
+    public Left5(A v) => Value = v;
+    A IEither5<A, B>.acceptLeft(IEitherVisitor<A, B> v) => Value;
+    B IEither5<A, B>.acceptRight(IEitherVisitor<A, B> v) => throw new Exception("only Left");
+};
+
+struct Right5<A, B> : IEither5<A, B>
+{
+    public B Value { get; }
+    public Right5(B v) => Value = v;
+    A IEither5<A, B>.acceptLeft(IEitherVisitor<A, B> v) => throw new Exception("only right");
+    B IEither5<A, B>.acceptRight(IEitherVisitor<A, B> v) => Value;
+};
+
+public class EitherVisitor<A, B> : IEitherVisitor<A, B>
+{
+    public A visitLeft(IEither5<A, B> v) => v.acceptLeft(this);
+    public B visitRight(IEither5<A, B> v) => v.acceptRight(this);
+};
+
+var visitor = new EitherVisitor<Void, string>();
+var r1 = new Right5<Void, string>(visitor.visitRight(new Right5<Void, string>("hello")));
+var r2 = new Right5<Void, string>("hello");
+
+r1.Equals(r2) // true
+
+
+
+
+
+//Wrap Up
+//Here, only the Either2, 4 and 5 are valid with properties and is compliant. 
+//For the Either2, the client can use the new csharp syntax for pattern matching switch statement but the type definition of left and right are mutually dependent..
 
 ////////////////////////////////
 
@@ -195,88 +377,3 @@ empty.FirstOrDefault() == l3.FirstOrDefault() //true, now we are not able to see
 //A better one for value types
 empty.Select(x => new Nullable<int>(x)).FirstOrDefault() // It outputs null but it is a true Nullable without value..
 
-public class Either4<TL, TR>
-{
-    private readonly TL left;
-    private readonly TR right;
-    private readonly bool isLeft;
-
-    public Either4(TL left)
-    {
-        this.left = left;
-        this.isLeft = true;
-    }
-
-    public Either4(TR right)
-    {
-        this.right = right;
-        this.isLeft = false;
-    }
-
-    public T Match4<T>(Func<TL, T> leftFunc, Func<TR, T> rightFunc)
-        => this.isLeft ? leftFunc(this.left) : rightFunc(this.right);
-
-    public override bool Equals(object obj)
-    {
-        var item = obj as Either4<TL, TR>;
-        if (item == null)
-        {
-            return false;
-        }
-        return item.Match4(
-            left1 => this.Match4(left2 => left2.Equals(left1), right2 => false),
-            right1 => this.Match4(left2 => false, right2 => right2.Equals(right1))
-            );
-    }
-}
-
-//Here Either is isomorphic to Right because Left is absurd! 
-
-
-var r1 = new Either4<string,Void> (
-    new Either4<string, Void>("hello")
-    .Match4(
-        left => left, right => throw new Exception("error!"))
-        );
-var r2 = new Either4<string,Void>("hello");
-
-// /!\ Execute this code line by line due to expression/statement issue
-r1.Equals(r2) //true
-
-// Either implemented by using the Vistor pattern
-public interface IEitherVisitor<A, B> {
-    A visitLeft(IEither5<A, B> v);
-    B visitRight(IEither5<A, B> v);
-};
-
-public interface IEither5<A, B> {
-    A acceptLeft(IEitherVisitor<A, B> v);
-    B acceptRight(IEitherVisitor<A, B> v);
- };
-
-struct Left5<A, B> : IEither5<A, B>
-{
-    public A Value { get; }
-    public Left5(A v) => Value = v;
-    A IEither5<A, B>.acceptLeft(IEitherVisitor<A, B> v) => Value;
-    B IEither5<A, B>.acceptRight(IEitherVisitor<A, B> v) => throw new Exception("only Left");
-};
-
-struct Right5<A, B> : IEither5<A, B>
-{
-    public B Value { get; }
-    public Right5(B v) => Value = v;
-    A IEither5<A, B>.acceptLeft(IEitherVisitor<A, B> v) => throw new Exception("only right");
-    B IEither5<A, B>.acceptRight(IEitherVisitor<A, B> v) => Value;
-};
-
-public class EitherVisitor<A, B> : IEitherVisitor<A, B> {
-    public A visitLeft(IEither5<A, B> v) => v.acceptLeft(this);
-    public B visitRight(IEither5<A, B> v)=> v.acceptRight(this);
-};
-
-var visitor = new  EitherVisitor<Void,string>();
-var r1 = new Right5<Void,string>(visitor.visitRight(new Right5<Void,string>("hello")));
-var r2 = new Right5<Void,string>("hello");
-
-r1.Equals(r2) // true
