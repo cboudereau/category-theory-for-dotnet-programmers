@@ -33,7 +33,7 @@ But for each new case you have to add the new type on all types. By doing this y
 Cases are mutually dependent. 
 - Either3 : try to keep one type to avoid case dependencies. But now we can't match case anymore.. It is not a valid solution at all.
 We can define the type Maybe ```(class Maybe2<T> : Either2<Unit, T> { })``` only for info.. (can't convert Maybe2 -> Right directly).
-- Either4 : this implementation is inspired by [@MikhailShilkov](https://mikhail.io/2016/01/validation-with-either-data-type-in-csharp/).
+- Either4 : this [implementation](https://mikhail.io/2016/01/validation-with-either-data-type-in-csharp/) is inspired by [@MikhailShilkov](https://twitter.com/MikhailShilkov).
 Now the left and right type are inside. Now the type definition is better at a first glance and same as fsharp but 
 we have now 2 ways to get the value and only one is valid (Left and Right property).
 - Either5: this implementation try to solve the struct issue of the Either4 but we cannot we the csharp pattern matching syntax anymore.
