@@ -17,7 +17,7 @@ For either you can unwrap the left case and get the value inside. The pattern ma
 
 You can encode your pattern matching thanks to if statements but you may have a higher cyclomatic complexity and have to split your method.
 
-- Boxing : When you have to use a struct that implement an interface, every time you supplied the struct as interface, you have a boxing issue. For 0 alloc pattern it could be an issue
+- Boxing : When you have to use a struct that implement an interface, every time you use the struct as interface, you have a boxing issue. For 0 alloc pattern it could be an issue.
 
 - Marker interface : https://blog.ndepend.com/marker-interface-isnt-pattern-good-idea/. Is it an antipattern ?
 
