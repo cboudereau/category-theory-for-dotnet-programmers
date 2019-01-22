@@ -379,4 +379,3 @@ empty.FirstOrDefault() == l3.FirstOrDefault() //true, now we are not able to see
 //A better one for value types
 empty.Select(x => new Nullable<int>(x)).FirstOrDefault() // It outputs null but it is a true Nullable without value..
 
-r1.Equals(r2) // true
