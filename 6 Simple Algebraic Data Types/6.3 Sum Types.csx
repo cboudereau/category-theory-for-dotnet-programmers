@@ -10,6 +10,13 @@ sealed class Void
     public static T absurd<T>(Void _) => throw new System.NotImplementedException("you can't call me it is absurd!");
 }
 
+sealed class Unit
+{
+    private Unit(){ }
+
+    public static Unit Singleton = new Unit();
+}
+
 //Sum type thanks to Subtyping. It works for this moment.. But lets go deeper in the book :)
 
 //Personal notes
@@ -157,13 +164,6 @@ struct Right2<L, R> : Either2<L, R>
     public Right2(R x) => Value = x;
 }
 
-sealed class Unit
-{
-    private Unit(){ }
-
-    public static Unit Singleton = new Unit();
-}
-
 //Now it is okay but we have introduced a mutual dependency in the type definition between Left and Right type ?! 
 class Maybe2<T> : Either2<Unit, T> { }
 
@@ -300,8 +300,8 @@ switch ((Either4<Unit, string>)r1E4)
 // Link : https://mikhail.io/2016/01/validation-with-either-data-type-in-csharp/
 public interface IEitherVisitor<A, B>
 {
-    A visitLeft(IEither5<A, B> v);
-    B visitRight(IEither5<A, B> v);
+    A visitLeft(Left5<A, B> v);
+    B visitRight(Right5<A, B> v);
 };
 
 public interface IEither5<A, B>
@@ -310,26 +310,26 @@ public interface IEither5<A, B>
     B acceptRight(IEitherVisitor<A, B> v);
 };
 
-struct Left5<A, B> : IEither5<A, B>
+public struct Left5<A, B> : IEither5<A, B>
 {
     public A Value { get; }
     public Left5(A v) => Value = v;
-    A IEither5<A, B>.acceptLeft(IEitherVisitor<A, B> v) => Value;
-    B IEither5<A, B>.acceptRight(IEitherVisitor<A, B> v) => throw new Exception("only Left");
+    public A acceptLeft(IEitherVisitor<A, B> v) => Value;
+    public B acceptRight(IEitherVisitor<A, B> v) => throw new Exception("only Left");
 };
 
-struct Right5<A, B> : IEither5<A, B>
+public struct Right5<A, B> : IEither5<A, B>
 {
     public B Value { get; }
     public Right5(B v) => Value = v;
-    A IEither5<A, B>.acceptLeft(IEitherVisitor<A, B> v) => throw new Exception("only right");
-    B IEither5<A, B>.acceptRight(IEitherVisitor<A, B> v) => Value;
+    public A acceptLeft(IEitherVisitor<A, B> v) => throw new Exception("only right");
+    public B acceptRight(IEitherVisitor<A, B> v) => Value;
 };
 
 public class EitherVisitor<A, B> : IEitherVisitor<A, B>
 {
-    public A visitLeft(IEither5<A, B> v) => v.acceptLeft(this);
-    public B visitRight(IEither5<A, B> v) => v.acceptRight(this);
+    public A visitLeft(Left5<A, B> v) => v.acceptLeft(this);
+    public B visitRight(Right5<A, B> v) => v.acceptRight(this);
 };
 
 var visitor = new EitherVisitor<Void, string>();

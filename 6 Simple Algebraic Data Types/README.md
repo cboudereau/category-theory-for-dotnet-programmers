@@ -42,7 +42,7 @@ we have now 2 ways to get the value and only one is valid (Left and Right proper
 |---------|---------------|------------------|--------|------------------|--------------------|----------------|
 |   #4    | Either        | Switch keyword   |   -    |       Yes        |   At case level    |      No        |
 |   #2    | Either2       | Switch keyword   |  Yes   |       Yes        |   At case level    |     Yes        |
-| -       | Either3       | Not Possible     |  Yes   |       Yes        |   At case level    |     Yes        |
+|   -     | Either3       | Not Possible     |  Yes   |       Yes        |   At case level    |     Yes        |
 |   #1    | Either4       | Switch keyword   |   -    |       No         |   At type level    |      No        |
 |   #3    | Either5       | No.              |  Yes   |       Yes        |   At case level    |     Yes        |
 
