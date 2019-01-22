@@ -230,6 +230,8 @@ static class Either3Extension
 
 
 // Either4 //////////////////////////////////////////////////////////////////////
+// Link : https://mikhail.io/2016/01/validation-with-either-data-type-in-csharp/
+// Link: https://davesquared.net/2014/04/either.html
 public class Either4<TL, TR>
 {
     private readonly TL left;
@@ -297,7 +299,6 @@ switch ((Either4<Unit, string>)r1E4)
 
 // Either5 //////////////////////////////////////////////////////////////////////
 // Either implemented by using the Vistor pattern
-// Link : https://mikhail.io/2016/01/validation-with-either-data-type-in-csharp/
 public interface IEitherVisitor<A, B>
 {
     A visitLeft(Left5<A, B> v);

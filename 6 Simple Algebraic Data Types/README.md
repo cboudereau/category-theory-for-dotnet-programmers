@@ -43,10 +43,12 @@ we have now 2 ways to get the value and only one is valid (Left and Right proper
 |   #4    | Either        | Switch keyword   |   -    |       Yes        |   At case level    |      No        |
 |   #2    | Either2       | Switch keyword   |  Yes   |       Yes        |   At case level    |     Yes        |
 |   -     | Either3       | Not Possible     |  Yes   |       Yes        |   At case level    |     Yes        |
-|   #1    | Either4       | Switch keyword   |   -    |       No         |   At type level    |      No        |
+|   #1    | Either4       | No. With method  |   -    |       No         |   At type level    |      No        |
 |   #3    | Either5       | No.              |  Yes   |       Yes        |   At case level    |     Yes        |
 
 To summarize, there is no total solution for csharp sum type. You have to choose one dependending your case but we cannot build a lib that supply only one valid implementation for either and compose maybe or nullable over it.
 Having sum types can increase composability of types.
+
+I will use the Either2 which is not the best but is compliant with the pattern matching feature that is necessary to implement function over our sum type.
 
 Thanks to [giuliohome](https://twitter.com/giuliohome_2017) who help me to add more implementations.
