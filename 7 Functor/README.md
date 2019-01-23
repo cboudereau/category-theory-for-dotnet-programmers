@@ -39,7 +39,9 @@ In the given definition of functor ```f a``` means ```f<a>``` where ```f``` and 
 To implement properly Functor type classes we need 3 things in order : 
 
  1/ [Types classes or Trait](https://github.com/fsharp/fslang-suggestions/issues/243)
+ 
  2/ [Generic of Generic](https://github.com/dotnet/csharplang/issues/339)
+ 
  3/ [Type constructor](https://github.com/fsharp/fslang-suggestions/issues/243#issuecomment-260186368)
 
 [FStan](https://github.com/thautwarm/FSTan/blob/master/README.md) is an excellent alternative. 
