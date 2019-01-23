@@ -107,3 +107,6 @@ Haskell use a function (with closure) and eval it when we need the value (this i
 Haskell is lazy dy default you can build an infinite list when a fsharp list is finite. 
 Seq, alias of .net IEnumerable uses lazy with yield keyword.
 Like Haskell you can't compute the length of an infinite list of values.
+
+## 7.3 Functor Composition
+How to traverse Functor^2 ? By traversing it with map twice (one for maybe and one for list)!
