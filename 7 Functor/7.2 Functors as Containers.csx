@@ -18,7 +18,21 @@ static class EnumerableExtension
 
 var x = EnumerableExtension.InitInfinite(x=>x).Take(2).ToList();
 
-x.SequenceEqual(new List<int> { 0, 1 }) //true
+x.SequenceEqual(new List<int> { 0, 1 }); //true
 
+class Const<C>
+{
+    public C Value { get; }
+    public Const(C v) => Value = v;
+}
+class Const<C, A> : Const<C>
+{
+    public Const(C v) : base(v) { }
+}
 
-class Const<A, C> { }
+static class Const
+{    
+    //"fmap is free to ignore its function upon"
+    static Const<C, B> fmap<A, B, C>(Func<A, B> _, Const<C, A> x) => new Const<C, B>(x.Value);
+}
+
