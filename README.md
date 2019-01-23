@@ -7,6 +7,9 @@ The [Category Theory for programmers](https://bartoszmilewski.com/2014/10/28/cat
 
 Fsx and Csx are scripts files executed respectively into Fsharp interactive and Csharp interactive shipped with Visual Studio Community at least.
 
+/!\ There is a problem with csx : to transform statement as expression (to display the value) you have to not ending your line with ';' causing compilation error on multiple line.
+If you encounter compilation error on csx, try to execute it line by line. If the code does not compile send a PR or a message.
+
 # How to use it ?
 
 Read the [Category Theory for Programmers](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/) and the annotations corresponding to the chapter into vs code or visual studio.
