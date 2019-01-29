@@ -10,4 +10,4 @@ type Const<'c, 'a> = Const of 'c
 
 module Const = 
     //"fmap is free to ignore its function upon"
-    let fmap _ (Const v) = Const (v)
+    let fmap ((_:'a -> 'b), ((Const v):Const<'c, 'a>)) : Const<'c, 'b> = Const (v)
