@@ -53,7 +53,7 @@ module Identity =
     let map f (Identity x) = Identity (f x)
 
 module Const = 
-    let map (f:'a->'b) ((Const v):Const<'c, 'a>) : Const<'c, 'b> = Const v
+    let map (_:'a->'b) ((Const v):Const<'c, 'a>) : Const<'c, 'b> = Const v
 
 module Either = 
     let bimap f g x = 
